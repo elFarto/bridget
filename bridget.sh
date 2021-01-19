@@ -213,21 +213,25 @@ log "Writing $CNI_CONFIG"
 cat >$CNI_CONFIG <<EOT
 {
         "name": "bridget",
-        "cniVersion": "0.2.0",
-        "type": "bridge",
-        "bridge": "${BRIDGE}",
-        "ipMasq": true,
-        "mtu": ${MTU:-1500},
-        "ipam": {
-                "type": "host-local",
-                "subnet": "${SUBNET}",
-                "rangeStart": "${FIRST_IP}",
-                "rangeEnd": "${LAST_IP}",
-                "gateway": "${GATEWAY}",
-                "routes": [
-                        { "dst": "0.0.0.0/0" }
-                ]
-        }
+        "cniVersion": "0.3.0",
+        "plugins": [{
+                "type": "bridge",
+                "bridge": "${BRIDGE}",
+                "ipMasq": true,
+                "mtu": ${MTU:-1500},
+                "ipam": {
+                        "type": "host-local",
+                        "subnet": "${SUBNET}",
+                        "rangeStart": "${FIRST_IP}",
+                        "rangeEnd": "${LAST_IP}",
+                        "gateway": "${GATEWAY}",
+                        "routes": [
+                                { "dst": "0.0.0.0/0" }
+                        ]
+                }
+        },{
+                "type": "firewall"
+        }]
 }
 EOT
 
